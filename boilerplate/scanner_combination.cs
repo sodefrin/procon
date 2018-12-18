@@ -69,6 +69,7 @@ class Scanner
     if (i >= s.Length) {
       s = Console.ReadLine().Split(' ');
       max_i = s.Length;
+      i = 0;
       if (max_i == 0) {
         return "";
       }
