@@ -15,35 +15,46 @@ class Procon
   {
     cin = new Scanner();
     int N = cin.nextInt();
-    int[,] dist = new int[N-1, 3];
-    for (int i=0; i<N-1; i++) {
-      dist[i,0] = cin.nextInt()-1;
-      dist[i,1] = cin.nextInt()-1;
-      dist[i,2] = cin.nextInt();
+    List<int[]>[] node = new List<int[]>[N];
+    for (int i=0; i<N; i++) {
+      node[i] = new List<int[]>();
     }
+    for (int i=0; i<N-1; i++) {
+      int a = cin.nextInt()-1;
+      int b = cin.nextInt()-1;
+      int c = cin.nextInt();
+      node[a].Add(new int[]{b, c});
+      node[b].Add(new int[]{a, c});
+    }
+
     int Q = cin.nextInt();
     int K = cin.nextInt() - 1;
     long[] d = new long[N];
-    for (int i=0; i<N; i++) {
+    for (int i=0; i<N; i++) 
+    {
       d[i] = -1;
     }
     d[K] = 0;
 
-    for (int i=0; i<N; i++) { 
-      for (int j=0; j<N-1; j++) {
-        if (d[dist[j,0]] >= 0) {
-          d[dist[j,1]] = d[dist[j,0]] + dist[j, 2];
-        } else if (d[dist[j,1]] >= 0) {
-          d[dist[j,0]] = d[dist[j,1]] + dist[j, 2];
-        }
-      }
-    }
+    recur(node, d, K);
 
-    // 間違ってる&遅い
-    for (int i=0; i<Q; i++) {
-      int x = cin.nextInt();
-      int y = cin.nextInt();
-      Console.WriteLine((long)d[x-1] + (long)d[y-1]);
+    for (int i=0; i<Q; i++) 
+    {
+      int x = cin.nextInt() - 1;
+      int y = cin.nextInt() - 1;
+      Console.WriteLine((long)d[x] + (long)d[y]);
+    }
+  }
+  
+  public static void recur(List<int[]>[] node, long[] d, int n) 
+  {
+    for (int i=0; i < node[n].Count; i++) 
+    {
+      if (d[n] >= 0 && d[node[n][i][0]] < 0) 
+      {
+        d[node[n][i][0]] = d[n] + node[n][i][1];
+        recur(node, d, node[n][i][0]);
+      }
     }
   }
 }
