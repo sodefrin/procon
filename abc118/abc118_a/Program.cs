@@ -13,40 +13,7 @@ class Procon
 
   public void Do()
   {
-    int[] r = new int[4];
-    r[0] = 0;
-    r[1] = 1;
-    r[2] = 2;
-    r[3] = 3;
-  }
-
-  public static bool next_permutation<T>(T[] array) where T : IComparable<T> 
-  {
-    int end = array.Length - 1;
-    int last = end;
-    while (true)
-    {
-      int pos = last - 1;
-      if (array[pos].CompareTo(array[last]) < 0)
-      {
-        int i;
-        for (i=end;; i--) {
-          if (array[pos].CompareTo(array[i])<0) {
-            break;
-          }
-        }
-        T tmp = array[pos];
-        array[pos] = array[i];
-        array[i] = tmp;
-        Array.Reverse(array, last, end - last + 1);
-        return true;
-      }
-      last --;
-      if (last == 0 )
-      {
-        return false;
-      }
-    }
+    cin = new Scanner();
   }
 }
 
@@ -66,15 +33,18 @@ class Scanner
 
   public string nextString()
   {
-    if (i >= s.Length) {
+    if (i >= s.Length) 
+    {
       s = Console.ReadLine().Split(' ');
       max_i = s.Length;
       i = 0;
-      if (max_i == 0) {
+      if (max_i == 0) 
+      {
         return "";
       }
       return s[i++];
-    } else {
+    } else 
+    {
       return s[i++];
     }
   }
@@ -104,7 +74,8 @@ class Scanner
   {
     string[] str = Console.ReadLine().Split(' ');
     int[] array = new int[str.Length];
-    for (int i=0; i<str.Length; i++) {
+    for (int i=0; i<str.Length; i++) 
+    {
       array[i] = int.Parse(str[i]);
     }
     return array;
@@ -114,7 +85,8 @@ class Scanner
   {
     string[] str = Console.ReadLine().Split(' ');
     long[] array = new long[str.Length];
-    for (int i=0; i<str.Length; i++) {
+    for (int i=0; i<str.Length; i++) 
+    {
       array[i] = long.Parse(str[i]);
     }
     return array;
@@ -124,7 +96,8 @@ class Scanner
   {
     string[] str = Console.ReadLine().Split(' ');
     double[] array = new double[str.Length];
-    for (int i=0; i<str.Length; i++) {
+    for (int i=0; i<str.Length; i++) 
+    {
       array[i] = double.Parse(str[i]);
     }
     return array;
