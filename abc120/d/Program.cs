@@ -1,6 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
+class Tree {
+  public Tree parent;
+  public List<Tree> children;
+  public string name;
+  public long sum;
+  public long height;
+}
 class Procon {
   public Procon () { }
   static void Main (string[] agrs) {
@@ -9,59 +17,97 @@ class Procon {
 
   Scanner cin;
 
-  public void Update (int[] g, int a, int b, int N) {
-    for (int i = 0; i < N; i++) {
-      if (g[i] == a) {
-        g[i] = b;
+  public Tree GetParent (Tree t) {
+    var tmp = t;
+    while (true) {
+      if (tmp.parent == null) {
+        break;
       }
+      tmp = tmp.parent;
     }
+    return tmp;
   }
 
-  public long Calc (int[] g, int N) {
-    int[] num = new int[N];
-
-    for (int i = 0; i < N; i++) {
-      num[g[i]]++;
+  public Tree GetChildOfHeight (Tree t, long height) {
+    var tmp = t;
+    while (true) {
+      if (tmp.height == height + 1) {
+        break;
+      }
+      tmp = tmp.children[0];
     }
+    return tmp;
+  }
 
-    long ret = N * N;
-    for (int i = 0; i < N; i++) {
-      ret -= num[i] * num[i];
+  public void UpdateTree (Tree t, long sum) {
+    var tmp = t;
+    tmp.sum += sum;
+    while (true) {
+      if (tmp.parent == null) {
+        break;
+      }
+      tmp = tmp.parent;
+      tmp.sum += sum;
     }
-
-    return ret / 2;
   }
 
   public void Do () {
     cin = new Scanner ();
-    int N = cin.nextInt ();
-    int M = cin.nextInt ();
+    long N = cin.nextLong ();
+    long M = cin.nextLong ();
 
-    int[, ] ab = new int[M, 2];
-    for (int i = 0; i < M; i++) {
+    long[, ] ab = new long[M, 2];
+    for (long i = 0; i < M; i++) {
       ab[i, 0] = cin.nextInt () - 1;
       ab[i, 1] = cin.nextInt () - 1;
     }
 
-    int[] g = new int[N];
-
-    for (int i = 0; i < N; i++) {
-      g[i] = i;
+    Tree[] shima = new Tree[N];
+    for (long i = 0; i < N; i++) {
+      shima[i] = new Tree ();
+      shima[i].name = "shima" + i.ToString ();
+      shima[i].sum = 1;
+      shima[i].height = 1;
+      shima[i].children = null;
     }
 
     long[] retarray = new long[M];
-    for (int i = 0; i < M; i++) {
-      long ret = Calc (g, N);
+    Tree[] hashi = new Tree[M];
+    long ret = N * (N - 1) / 2;
+    for (long i = 0; i < M; i++) {
       retarray[M - i - 1] = ret;
-      int a = ab[M - i - 1, 0];
-      int b = ab[M - i - 1, 1];
-      if (g[a] == g[b]) {
+      long a = ab[M - i - 1, 0];
+      long b = ab[M - i - 1, 1];
+      var roota = GetParent (shima[a]);
+      var rootb = GetParent (shima[b]);
+      if (roota.name == rootb.name) {
         continue;
       }
-      Update (g, g[a], g[b], N);
+      ret -= roota.sum * rootb.sum;
+      if (roota.height == rootb.height) {
+        hashi[i] = new Tree ();
+        hashi[i].name = "hasahi" + i.ToString ();
+        hashi[i].sum = roota.sum + rootb.sum;
+        hashi[i].height = roota.height + 1;
+        hashi[i].children = new List<Tree> ();
+        hashi[i].children.Add (roota);
+        hashi[i].children.Add (rootb);
+        roota.parent = hashi[i];
+        rootb.parent = hashi[i];
+      } else if (roota.height > rootb.height) {
+        var tmp = GetChildOfHeight (roota, rootb.height);
+        tmp.children.Add (rootb);
+        rootb.parent = tmp;
+        UpdateTree (tmp, rootb.sum);
+      } else {
+        var tmp = GetChildOfHeight (rootb, roota.height);
+        tmp.children.Add (roota);
+        roota.parent = tmp;
+        UpdateTree (tmp, roota.sum);
+      }
     }
 
-    for (int i = 0; i < M; i++) {
+    for (long i = 0; i < M; i++) {
       Console.WriteLine (retarray[i]);
     }
   }
