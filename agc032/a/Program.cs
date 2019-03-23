@@ -2,16 +2,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class Procon {
-  public Procon () { }
-  static void Main (string[] agrs) {
-    new Procon ().Do ();
-  }
+class Program {
+  public Program () { }
 
   Scanner cin;
 
+  int N;
+
+  int[] b;
+
+  static void Main (string[] agrs) {
+    new Program ().Do ();
+  }
+
   public void Do () {
     cin = new Scanner ();
+    N = cin.nextInt ();
+    b = new List<int> (cin.arrayInt ());
+
+    int[] ans = new int[N];
+
+    for (int i = 0; i < N; i++) {
+      int max = -1;
+      for (int j = 0; j < N; j++) {
+        if (b[j] == j + 1) {
+          max = j;
+        }
+      }
+      if (max > 0) {
+        b.RemoveAt (max);
+        ans[i] = max;
+      } else {
+        Console.WriteLine (max);
+        return;
+      }
+    }
+
+    for (int i = 0; i < N; i++) { }
   }
 }
 
