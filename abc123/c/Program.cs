@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 class Procon
@@ -14,38 +15,24 @@ class Procon
     public void Do()
     {
         cin = new Scanner();
-        int n = cin.nextInt();
-        long[] t = new long[n];
-        for (int i = 0; i < n; i++)
+        long N = cin.nextLong();
+        long min = -1;
+        for (int i = 0; i < 5; i++)
         {
-            t[i] = cin.nextLong();
-        }
-
-        long ret = 1;
-        for (int i = 0; i < n; i++)
-        {
-            ret = (t[i] / ecd(t[i], ret)) * ret;
-        }
-        Console.WriteLine(ret);
-    }
-
-    static long ecd(long a, long b)
-    {
-        if (a < b)
-        {
-            long t = a;
-            a = b;
-            b = t;
-        }
-        while (true)
-        {
-            long r = a % b;
-            if (r == 0)
+            long tmp = cin.nextLong();
+            if (min == -1 || tmp < min)
             {
-                return b;
+                min = tmp;
             }
-            a = b;
-            b = r;
+        }
+
+        if (N % min == 0)
+        {
+            Console.WriteLine(5 + N / min - 1);
+        }
+        else
+        {
+            Console.WriteLine(5 + N / min);
         }
     }
 }
@@ -86,7 +73,6 @@ class Scanner
     {
         return int.Parse(nextString());
     }
-
 
     public long nextLong()
     {

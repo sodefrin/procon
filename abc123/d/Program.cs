@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 class Procon
@@ -10,42 +11,47 @@ class Procon
     }
 
     Scanner cin;
+    long X, Y, Z, K;
+    long[] A, B, C;
 
     public void Do()
     {
         cin = new Scanner();
-        int n = cin.nextInt();
-        long[] t = new long[n];
-        for (int i = 0; i < n; i++)
-        {
-            t[i] = cin.nextLong();
-        }
+        X = cin.nextLong();
+        Y = cin.nextLong();
+        Z = cin.nextLong();
+        K = cin.nextLong();
+        A = cin.arrayLong();
+        B = cin.arrayLong();
+        C = cin.arrayLong();
 
-        long ret = 1;
-        for (int i = 0; i < n; i++)
-        {
-            ret = (t[i] / ecd(t[i], ret)) * ret;
-        }
-        Console.WriteLine(ret);
-    }
+        long[] calc1 = new long[X * Y];
 
-    static long ecd(long a, long b)
-    {
-        if (a < b)
+        for (int i = 0; i < X; i++)
         {
-            long t = a;
-            a = b;
-            b = t;
-        }
-        while (true)
-        {
-            long r = a % b;
-            if (r == 0)
+            for (int j = 0; j < Y; j++)
             {
-                return b;
+                calc1[i * Y + j] = A[X - 1 - i] + B[Y - 1 - j];
             }
-            a = b;
-            b = r;
+        }
+
+        Array.Sort(calc1);
+
+        long[] calc2 = new long[K * Z];
+
+        for (int i = 0; i < Math.Min(K, X * Y); i++)
+        {
+            for (int j = 0; j < Z; j++)
+            {
+                calc2[i * Z + j] = calc1[X * Y - 1 - i] + C[Z - 1 - j];
+            }
+        }
+
+        Array.Sort(calc2);
+
+        for (int i = 0; i < K; i++)
+        {
+            Console.WriteLine(calc2[K * Z - 1 - i]);
         }
     }
 }
@@ -86,7 +92,6 @@ class Scanner
     {
         return int.Parse(nextString());
     }
-
 
     public long nextLong()
     {
