@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 class Procon
@@ -14,9 +15,23 @@ class Procon
     public void Do()
     {
         cin = new Scanner();
+        int N = cin.nextInt();
+        int[] H = cin.arrayInt();
+        int max = 0;
+        int ret = 0;
+
+        for (int i = 0; i < H.Count(); i++)
+        {
+            if (H[i] >= max)
+            {
+                ret++;
+                max = H[i];
+            }
+        }
+
+        Console.WriteLine(ret);
     }
 }
-
 
 class Scanner
 {
@@ -54,7 +69,6 @@ class Scanner
     {
         return int.Parse(nextString());
     }
-
 
     public long nextLong()
     {
