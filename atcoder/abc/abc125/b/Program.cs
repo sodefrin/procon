@@ -15,47 +15,21 @@ class Procon
     public void Do()
     {
         cin = new Scanner();
-        long cnt1 = 0;
-        long cnt2 = 0;
-        bool even = false;
 
-        while (true)
+        int N = cin.nextInt();
+        int[] V = cin.arrayInt();
+        int[] C = cin.arrayInt();
+
+        int ret = 0;
+        for (int i = 0; i < N; i++)
         {
-            int c = Console.Read();
-            if (even)
+            if (V[i] - C[i] > 0)
             {
-                if (c == '0')
-                {
-                    cnt1++;
-                }
-                else if (c == '1')
-                {
-                    cnt2++;
-                }
-                else
-                {
-                    break;
-                }
+                ret += V[i] - C[i];
             }
-            else
-            {
-                if (c == '0')
-                {
-                    cnt2++;
-                }
-                else if (c == '1')
-                {
-                    cnt1++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            even = !even;
         }
-        
-        Console.WriteLine(Math.Min(cnt1, cnt2));
+
+        Console.WriteLine(ret);
     }
 }
 

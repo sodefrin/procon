@@ -15,47 +15,33 @@ class Procon
     public void Do()
     {
         cin = new Scanner();
-        long cnt1 = 0;
-        long cnt2 = 0;
-        bool even = false;
 
-        while (true)
+        int N = cin.nextInt();
+        long[] A = cin.arrayLong();
+
+        int count = 0;
+        long min = 1000000001;
+        long sum = 0;
+
+        for (int i = 0; i < N; i++)
         {
-            int c = Console.Read();
-            if (even)
+            if (A[i] < 0)
             {
-                if (c == '0')
-                {
-                    cnt1++;
-                }
-                else if (c == '1')
-                {
-                    cnt2++;
-                }
-                else
-                {
-                    break;
-                }
+                count++;
             }
-            else
-            {
-                if (c == '0')
-                {
-                    cnt2++;
-                }
-                else if (c == '1')
-                {
-                    cnt1++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            even = !even;
+
+            min = Math.Min(min, Math.Abs(A[i]));
+            sum += Math.Abs(A[i]);
         }
-        
-        Console.WriteLine(Math.Min(cnt1, cnt2));
+
+        if (count % 2 == 0)
+        {
+            Console.WriteLine(sum);
+        }
+        else
+        {
+            Console.WriteLine(sum - 2 * min);
+        }
     }
 }
 

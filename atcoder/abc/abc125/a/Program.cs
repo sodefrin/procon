@@ -15,47 +15,14 @@ class Procon
     public void Do()
     {
         cin = new Scanner();
-        long cnt1 = 0;
-        long cnt2 = 0;
-        bool even = false;
 
-        while (true)
-        {
-            int c = Console.Read();
-            if (even)
-            {
-                if (c == '0')
-                {
-                    cnt1++;
-                }
-                else if (c == '1')
-                {
-                    cnt2++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            else
-            {
-                if (c == '0')
-                {
-                    cnt2++;
-                }
-                else if (c == '1')
-                {
-                    cnt1++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            even = !even;
-        }
-        
-        Console.WriteLine(Math.Min(cnt1, cnt2));
+        int A = cin.nextInt();
+        int B = cin.nextInt();
+        int T = cin.nextInt();
+
+        int ret = B * ((T * 10 + 5) / (A * 10));
+
+        Console.WriteLine(ret);
     }
 }
 

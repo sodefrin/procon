@@ -15,47 +15,60 @@ class Procon
     public void Do()
     {
         cin = new Scanner();
-        long cnt1 = 0;
-        long cnt2 = 0;
-        bool even = false;
 
-        while (true)
+        int N = cin.nextInt();
+        int[] A = cin.arrayInt();
+
+        var L = new int[N];
+        var R = new int[N + 1];
+
+        L[0] = 0;
+        R[N] = 0;
+        for (int i = 0; i < N - 1; i++)
         {
-            int c = Console.Read();
-            if (even)
-            {
-                if (c == '0')
-                {
-                    cnt1++;
-                }
-                else if (c == '1')
-                {
-                    cnt2++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            else
-            {
-                if (c == '0')
-                {
-                    cnt2++;
-                }
-                else if (c == '1')
-                {
-                    cnt1++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            even = !even;
+            L[i + 1] = gcd(L[i], A[i]);
+            R[N - i - 1] = gcd(R[N - i], A[N - i - 1]);
         }
-        
-        Console.WriteLine(Math.Min(cnt1, cnt2));
+
+        int max = 0;
+        for (int i = 0; i < N; i++)
+        {
+            int tmp = gcd(L[i], R[i + 1]);
+            if (tmp > max)
+            {
+                max = tmp;
+            }
+        }
+
+        Console.WriteLine(max);
+    }
+
+    int gcd(int a, int b)
+    {
+        int tmp;
+        if (b > a)
+        {
+            tmp = a;
+            a = b;
+            b = tmp;
+        }
+
+        if (b == 0)
+        {
+            return a;
+        }
+
+        return gcd(b, a % b);
+    }
+
+    int gcd(int[] a)
+    {
+        int ans = a[0];
+        for (int i = 1; i < a.Length; i++)
+        {
+            ans = gcd(ans, a[i]);
+        }
+        return ans;
     }
 }
 
