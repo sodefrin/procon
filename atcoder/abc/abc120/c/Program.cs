@@ -14,9 +14,26 @@ class Procon
     public void Do()
     {
         cin = new Scanner();
+        string S = cin.nextString();
+
+        int count0 = 0;
+        int count1 = 0;
+
+        for (int i = 0; i < S.Length; i++)
+        {
+            if (S[i] == '0')
+            {
+                count0++;
+            }
+            if (S[i] == '1')
+            {
+                count1++;
+            }
+        }
+
+        Console.WriteLine(2 * Math.Min(count0, count1));
     }
 }
-
 
 class Scanner
 {

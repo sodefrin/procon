@@ -3,103 +3,109 @@ using System.Linq;
 
 class Procon
 {
-  public Procon() {}
-  static void Main(string[] agrs)
-  {
-    new Procon().Do();
-  }
+    public Procon() { }
+    static void Main(string[] agrs)
+    {
+        new Procon().Do();
+    }
 
-  Scanner cin;
+    Scanner cin;
 
-  public void Do()
-  {
-    cin = new Scanner();
-  }
+    public void Do()
+    {
+        cin = new Scanner();
+        int A = cin.nextInt();
+        int B = cin.nextInt();
+        int C = cin.nextInt();
+
+        Console.WriteLine(Math.Min(C, B / A));
+    }
 }
 
 
 class Scanner
 {
-  string[] s;
-  int i;
-  int max_i;
+    string[] s;
+    int i;
+    int max_i;
 
-  public Scanner()
-  {
-    s = new string[0];
-    max_i = 0;
-    i = 0;
-  }
-
-  public string nextString()
-  {
-    if (i >= s.Length) 
+    public Scanner()
     {
-      s = Console.ReadLine().Split(' ');
-      max_i = s.Length;
-      i = 0;
-      if (max_i == 0) 
-      {
-        return "";
-      }
-      return s[i++];
-    } else 
-    {
-      return s[i++];
+        s = new string[0];
+        max_i = 0;
+        i = 0;
     }
-  }
 
-  public int nextInt()
-  {
-    return int.Parse(nextString());
-  }
-
-
-  public long nextLong()
-  {
-    return long.Parse(nextString());
-  }
-
-  public double nextDouble()
-  {
-    return double.Parse(nextString());
-  }
-
-  public string[] arrayString()
-  {
-    return Console.ReadLine().Split(' ');
-  }
-
-  public int[] arrayInt()
-  {
-    string[] str = Console.ReadLine().Split(' ');
-    int[] array = new int[str.Length];
-    for (int i=0; i<str.Length; i++) 
+    public string nextString()
     {
-      array[i] = int.Parse(str[i]);
+        if (i >= s.Length)
+        {
+            s = Console.ReadLine().Split(' ');
+            max_i = s.Length;
+            i = 0;
+            if (max_i == 0)
+            {
+                return "";
+            }
+            return s[i++];
+        }
+        else
+        {
+            return s[i++];
+        }
     }
-    return array;
-  }
 
-  public long[] arrayLong()
-  {
-    string[] str = Console.ReadLine().Split(' ');
-    long[] array = new long[str.Length];
-    for (int i=0; i<str.Length; i++) 
+    public int nextInt()
     {
-      array[i] = long.Parse(str[i]);
+        return int.Parse(nextString());
     }
-    return array;
-  }
 
-  public double[] arrayDouble()
-  {
-    string[] str = Console.ReadLine().Split(' ');
-    double[] array = new double[str.Length];
-    for (int i=0; i<str.Length; i++) 
+
+    public long nextLong()
     {
-      array[i] = double.Parse(str[i]);
+        return long.Parse(nextString());
     }
-    return array;
-  }
+
+    public double nextDouble()
+    {
+        return double.Parse(nextString());
+    }
+
+    public string[] arrayString()
+    {
+        return Console.ReadLine().Split(' ');
+    }
+
+    public int[] arrayInt()
+    {
+        string[] str = Console.ReadLine().Split(' ');
+        int[] array = new int[str.Length];
+        for (int i = 0; i < str.Length; i++)
+        {
+            array[i] = int.Parse(str[i]);
+        }
+        return array;
+    }
+
+    public long[] arrayLong()
+    {
+        string[] str = Console.ReadLine().Split(' ');
+        long[] array = new long[str.Length];
+        for (int i = 0; i < str.Length; i++)
+        {
+            array[i] = long.Parse(str[i]);
+        }
+        return array;
+    }
+
+    public double[] arrayDouble()
+    {
+        string[] str = Console.ReadLine().Split(' ');
+        double[] array = new double[str.Length];
+        for (int i = 0; i < str.Length; i++)
+        {
+            array[i] = double.Parse(str[i]);
+        }
+        return array;
+    }
 }
