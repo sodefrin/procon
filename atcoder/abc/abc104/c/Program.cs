@@ -36,12 +36,17 @@ class Procon
     {
         long score = 0;
         long num = 0;
+        int restMax = 0;
         for (int i = 1; i <= D; i++)
         {
             if ((isComplete >> i & 1) == 1)
             {
                 score += c[i - 1] + i * 100 * p[i - 1];
                 num += p[i - 1];
+            }
+            else
+            {
+                restMax = i;
             }
         }
 
@@ -50,27 +55,10 @@ class Procon
             return num;
         }
 
-        long remaining = G - score;
-        for (int i = D; i >= 1; i--)
+        long need = (G - score + 100 * restMax - 1) / (restMax * 100);
+        if (need <= p[restMax - 1])
         {
-            if ((isComplete >> i & 1) == 1)
-            {
-                continue;
-            }
-            if (remaining <= i * 100 * p[i - 1])
-            {
-                num += remaining / (i * 100);
-                if (remaining % (i * 100) != 0)
-                {
-                    num++;
-                }
-                return num;
-            }
-            else
-            {
-                num += p[i - 1];
-                remaining -= i * 100 * p[i - 1];
-            }
+            return num + need;
         }
         return 100000000;
     }
