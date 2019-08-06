@@ -1,7 +1,0 @@
-[package]
-name = "codeforces"
-version = "0.1.0"
-authors = ["sodefrin <kojitazoe@gmail.com>"]
-edition = "2018"
-
-[dependencies]
