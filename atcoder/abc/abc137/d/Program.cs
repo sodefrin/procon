@@ -8,34 +8,30 @@ using System.Text;
 
 class Procon {
     static void Main (string[] agrs) {
-        var N = Int ();
-        var M = Int ();
+        int N = Int ();
+        int M = Int ();
 
-        var tuples = L<Tuple<int, int>> ();
+        var tuples = new List<Tuple<int, int>> ();
 
         for (int i = 0; i < N; i++) {
             tuples.Add (Tuple.Create (Int (), Int ()));
         }
 
-        var pq = new PriorityQueue<int> (N, false);
-        var slist = tuples.OrderBy (v => v.Item1).ToArray ();
-        Dbg (slist);
+        var sorted = tuples.OrderBy (v => v.Item1).ToList ();
+        var pq = new PriorityQueue<int> (N, true);
 
         int cur = 0;
-        long ans = 0;
+        int ans = 0;
         for (int i = 1; i <= M; i++) {
-            while (cur < N && slist[cur].Item1 <= i) {
-                pq.Push (slist[cur].Item2);
+            while (cur < N && sorted[cur].Item1 <= i) {
+                pq.Push (sorted[cur].Item2);
                 cur++;
             }
             if (pq.Count () > 0) {
-                Dbg (pq.heap);
                 ans += pq.Pop ();
             }
         }
-
-        Console.WriteLine (ans);
-        Console.WriteLine (slist);
+        Dbg (ans);
     }
 
     static string String () => Scanner.nextString ();
@@ -49,26 +45,19 @@ class Procon {
     static double[] Doubles () => Strings ().Select (v => double.Parse (v)).ToArray ();
     const int M = 1000000007;
     static void Dbg (object a) => Console.WriteLine (a);
-    static void Dbg<T> (IEnumerable<T> a) => Dbg (string.Join (" ", a));
+    static void Dbg (params object[] a) => Console.WriteLine (string.Join (" ", a));
+    static void Dbgs<T> (IEnumerable<T> a, string split = " ") => Console.WriteLine (string.Join (split, a));
     static T Max<T> (params T[] a) => a.Max ();
     static T Min<T> (params T[] a) => a.Min ();
-    static List<T> L<T> () => new List<T> ();
-    static List<T> L<T> (T[] v) => new List<T> (v);
-    static Dictionary<T, U> Map<T, U> () => new Dictionary<T, U> ();
-    static bool Contains<T, U> (Dictionary<T, U> d, T k) => d.ContainsKey (k);
-    static Dictionary<T, U>.KeyCollection Keys<T, U> (Dictionary<T, U> d) => d.Keys;
-    static Dictionary<T, U>.ValueCollection Values<T, U> (Dictionary<T, U> d) => d.Values;
-    static Tuple<T1, T2> T<T1, T2> (T1 t1, T2 t2) => Tuple.Create (t1, t2);
 }
 
 class PriorityQueue<T> where T : IComparable<T> {
     public T[] heap;
     public int size;
     public int sign;
-    public PriorityQueue (int N, bool order) {
+    public PriorityQueue (int N, bool descend = false) {
         heap = new T[N];
-        if (order) sign = 1;
-        else sign = -1;
+        if (descend) sign = -1;
     }
     public int Compare (T x, T y) {
         return x.CompareTo (y) * sign;
@@ -92,7 +81,7 @@ class PriorityQueue<T> where T : IComparable<T> {
         while (i * 2 + 1 < size) {
             int a = i * 2 + 1;
             int b = i * 2 + 2;
-            if (b < size && Compare (heap[b], heap[a]) >= 0) {
+            if (b < size && Compare (heap[a], heap[b]) > 0) {
                 a = b;
             }
             if (Compare (heap[a], x) >= 0) {
