@@ -7,51 +7,46 @@ using System.Linq.Expressions;
 using System.Text;
 
 class Procon {
+    static int[] DP;
+    static List<int>[] edges;
     static void Main (string[] agrs) {
-        int N = Int ();
-        int M = Int ();
+        var N = Int ();
+        var M = Int ();
 
-        List<Tuple<int, int>> e = new List<Tuple<int, int>> ();
-
-        for (int i = 0; i < M; i++) {
-            e.Add (Tuple.Create (Int (), Int ()));
-        }
-
-        var nodes = new Node[N];
+        DP = new int[N];
+        edges = new List<int>[N];
         for (int i = 0; i < N; i++) {
-            nodes[i] = new Node (i);
+            DP[i] = -1;
+            edges[i] = new List<int> ();
         }
 
         for (int i = 0; i < M; i++) {
-            nodes[e[i].Item1 - 1].to.Add (e[i].Item2 - 1);
+            edges[Int () - 1].Add (Int () - 1);
         }
 
-        var pq = new PriorityQueue<Node> (N);
-
-        int tmp = 1;
-        foreach (var x in e.Select (v => v.Item2).OrderBy (v => v).ToList ().Distinct ()) {
-            while (x != tmp) {
-                pq.Push (nodes[tmp - 1]);
-                tmp++;
-            }
-            tmp++;
+        for (int i = 0; i < N; i++) {
+            recur (i);
         }
 
-        while (pq.Count () > 0) {
-            var node = pq.Pop ();
-            Console.WriteLine ("pop {0} {1}", node.n, node.val);
-            foreach (var next in node.to) {
-                if (node.val + 1 > nodes[next].val) {
-                    nodes[next].val = node.val + 1;
-                    pq.Push (nodes[next]);
-                    Console.WriteLine ("push {0} {1}", nodes[next].n, nodes[next].val);
-                    for (var tmp2 = 0; tmp2 < pq.size; tmp2++) {
-                        Console.Write ("{0} {1}  ", pq.heap[tmp2].n, pq.heap[tmp2].val);
-                    }
-                }
-            }
+        int ans = 0;
+        for (int i = 0; i < N; i++) {
+            ans = Math.Max (ans, DP[i]);
         }
-        Console.Out.Flush ();
+
+        Console.WriteLine (ans);
+    }
+
+    static int recur (int i) {
+        if (DP[i] != -1) {
+            return DP[i];
+        }
+
+        int max = 0;
+        for (int j = 0; j < edges[i].Count (); j++) {
+            max = Math.Max (max, recur (edges[i][j]) + 1);
+        }
+        DP[i] = max;
+        return max;
     }
 
     static string String () => Scanner.nextString ();
@@ -66,26 +61,13 @@ class Procon {
     const int M = 1000000007;
 }
 
-class Node : IComparable<Node> {
-    public int n;
-    public int val;
-    public List<int> to;
-    public Node (int n) {
-        this.val = 0;
-        this.n = n;
-        this.to = new List<int> ();
-    }
-    public int CompareTo (Node v) {
-        return v.val - val;
-    }
-}
-
 class PriorityQueue<T> where T : IComparable<T> {
     public T[] heap;
     public int size;
     public int sign;
     public PriorityQueue (int N, bool descend = false) {
         heap = new T[N];
+        sign = 1;
         if (descend) sign = -1;
     }
     public int Compare (T x, T y) {
