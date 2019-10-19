@@ -34,7 +34,7 @@ class Procon {
             return ~index;
         }
         int tmp = a[index];
-        while (tmp == a[index - 1]) {
+        while (index - 1 >= 0 && tmp == a[index - 1]) {
             index--;
         }
 
